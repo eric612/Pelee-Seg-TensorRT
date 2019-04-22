@@ -16,10 +16,10 @@ const char* INPUT_BLOB_NAME = "data";
 
 const char* OUTPUT_BLOB_NAME = "detection_out";
 static const uint32_t BATCH_SIZE = 1;
-
+volatile bool endvideo = false;
 //image buffer size = 10
 //dropFrame = false
-ConsumerProducerQueue<cv::Mat> *imageBuffer = new ConsumerProducerQueue<cv::Mat>(10,false);
+ConsumerProducerQueue<cv::Mat> *imageBuffer = new ConsumerProducerQueue<cv::Mat>(5,false);
 
 class Timer {
 public:
@@ -68,7 +68,7 @@ void loadImg( cv::Mat &input, int re_width, int re_height, float *data_unifrom,c
     unsigned char *line = NULL;
     float *unifrom_data = data_unifrom;
 
-    cv::resize( input, dst, cv::Size( re_width, re_height ), (0.0), (0.0), cv::INTER_LINEAR );
+    cv::resize( input, dst, cv::Size( re_width, re_height ), cv::INTER_LINEAR );
     offset_g = re_width * re_height;
     offset_r = re_width * re_height * 2;
     for( i = 0; i < re_height; ++i )
@@ -95,6 +95,10 @@ void readPicture()
     while(cap.isOpened())
     {
         cap >> image;
+        if(image.empty()) {
+            endvideo = true;
+            break;
+        }
         imageBuffer->add(image);
     }
 }
@@ -123,11 +127,19 @@ int main(int argc, char *argv[])
 
     std::thread readTread(readPicture);
     readTread.detach();
+    double msTime_avg = 0.;
+    int count = 0;
     while(1){
+    if(endvideo && imageBuffer->isEmpty()) {
+        break;
+    }
     imageBuffer->consume(frame);
 
-    srcImg = frame.clone();
-    cv::resize(frame, frame, cv::Size(304,304));
+    if(!frame.rows) {
+        break;
+    }
+    //srcImg = frame.clone();
+    cv::resize(frame, srcImg, cv::Size(304,304));
     const size_t size = width * height * sizeof(float3);
 
     if( CUDA_FAILED( cudaMalloc( &imgCUDA, size)) )
@@ -137,9 +149,9 @@ int main(int argc, char *argv[])
     }
 
     void* imgData = malloc(size);
-    memset(imgData,0,size);
+    //memset(imgData,0,size);
 
-    loadImg(frame,height,width,(float*)imgData,make_float3(103.94,116.78,123.68),0.017);
+    loadImg(srcImg,height,width,(float*)imgData,make_float3(103.94,116.78,123.68),0.017);
     cudaMemcpyAsync(imgCUDA,imgData,size,cudaMemcpyHostToDevice);
 
     void* buffers[] = { imgCUDA, output }; 
@@ -150,7 +162,9 @@ int main(int argc, char *argv[])
     tensorNet.imageInference( buffers, output_vector.size() + 1, BATCH_SIZE);
     timer.toc();
     double msTime = timer.t;
-
+    msTime_avg+= msTime;
+    count++;
+    std::cout<<msTime_avg/(float)count<< std::endl;	
     vector<vector<float> > detections;
 
     for (int k=0; k<100; k++)
@@ -164,15 +178,15 @@ int main(int argc, char *argv[])
         float xmax = output[7*k + 5];
         float ymax = output[7*k + 6];
         //std::cout << classIndex << " , " << confidence << " , "  << xmin << " , " << ymin<< " , " << xmax<< " , " << ymax << std::endl;
-        int x1 = static_cast<int>(xmin * srcImg.cols);
-        int y1 = static_cast<int>(ymin * srcImg.rows);
-        int x2 = static_cast<int>(xmax * srcImg.cols);
-        int y2 = static_cast<int>(ymax * srcImg.rows);
-        cv::rectangle(srcImg,cv::Rect2f(cv::Point(x1,y1),cv::Point(x2,y2)),cv::Scalar(255,0,255),1);
+        int x1 = static_cast<int>(xmin * frame.cols);
+        int y1 = static_cast<int>(ymin * frame.rows);
+        int x2 = static_cast<int>(xmax * frame.cols);
+        int y2 = static_cast<int>(ymax * frame.rows);
+        cv::rectangle(frame,cv::Rect2f(cv::Point(x1,y1),cv::Point(x2,y2)),cv::Scalar(255,0,255),1);
 
     }
-    cv::imshow("Pelee",srcImg);
-    cv::waitKey(40);
+    cv::imshow("Pelee",frame);
+    cv::waitKey(1);
     free(imgData);
     }
     cudaFree(imgCUDA);

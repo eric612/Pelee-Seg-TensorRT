@@ -77,8 +77,8 @@ layer {
 layer {
 #@iplugin
   name: "stem/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stem/pool"
   bottom: "stem2b"
   top: "stem/concat"
@@ -206,10 +206,9 @@ layer {
   top: "stage1_1/branch2c"
 }
 layer {
-#@iplugin
   name: "stage1_1/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stem3"
   bottom: "stage1_1/branch1b"
   bottom: "stage1_1/branch2c"
@@ -576,10 +575,9 @@ layer {
   top: "stage2_1/branch2c"
 }
 layer {
-#@iplugin 
   name: "stage2_1/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage1_tb/pool"
   bottom: "stage2_1/branch1b"
   bottom: "stage2_1/branch2c"
@@ -689,10 +687,9 @@ layer {
   top: "stage2_2/branch2c"
 }
 layer {
-#@iplugin
   name: "stage2_2/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage2_1/concat"
   bottom: "stage2_2/branch1b"
   bottom: "stage2_2/branch2c"
@@ -802,10 +799,9 @@ layer {
   top: "stage2_3/branch2c"
 }
 layer {
-#@iplugin 
   name: "stage2_3/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage2_2/concat"
   bottom: "stage2_3/branch1b"
   bottom: "stage2_3/branch2c"
@@ -1172,10 +1168,9 @@ layer {
   top: "stage3_2/branch2c"
 }
 layer {
-#@iplugin 
   name: "stage3_2/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage3_1/concat"
   bottom: "stage3_2/branch1b"
   bottom: "stage3_2/branch2c"
@@ -1285,10 +1280,9 @@ layer {
   top: "stage3_3/branch2c"
 }
 layer {
-#@iplugin 
   name: "stage3_3/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage3_2/concat"
   bottom: "stage3_3/branch1b"
   bottom: "stage3_3/branch2c"
@@ -1398,10 +1392,10 @@ layer {
   top: "stage3_4/branch2c"
 }
 layer {
-#@iplugin 
+ 
   name: "stage3_4/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage3_3/concat"
   bottom: "stage3_4/branch1b"
   bottom: "stage3_4/branch2c"
@@ -1511,10 +1505,9 @@ layer {
   top: "stage3_5/branch2c"
 }
 layer {
-#@iplugin 
   name: "stage3_5/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage3_4/concat"
   bottom: "stage3_5/branch1b"
   bottom: "stage3_5/branch2c"
@@ -1624,10 +1617,9 @@ layer {
   top: "stage3_6/branch2c"
 }
 layer {
-#@iplugin 
   name: "stage3_6/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage3_5/concat"
   bottom: "stage3_6/branch1b"
   bottom: "stage3_6/branch2c"
@@ -1737,10 +1729,9 @@ layer {
   top: "stage3_7/branch2c"
 }
 layer {
-#@iplugin
   name: "stage3_7/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage3_6/concat"
   bottom: "stage3_7/branch1b"
   bottom: "stage3_7/branch2c"
@@ -1850,10 +1841,9 @@ layer {
   top: "stage3_8/branch2c"
 }
 layer {
-#@iplugin
   name: "stage3_8/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage3_7/concat"
   bottom: "stage3_8/branch1b"
   bottom: "stage3_8/branch2c"
@@ -2108,10 +2098,9 @@ layer {
   top: "stage4_2/branch2c"
 }
 layer {
-#@iplugin
   name: "stage4_2/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage4_1/concat"
   bottom: "stage4_2/branch1b"
   bottom: "stage4_2/branch2c"
@@ -2245,10 +2234,9 @@ layer {
   top: "stage4_3/branch2c"
 }
 layer {
-#@iplugin 
   name: "stage4_3/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage4_2/concat"
   bottom: "stage4_3/branch1b"
   bottom: "stage4_3/branch2c"
@@ -2388,10 +2376,9 @@ layer {
   top: "stage4_4/branch2c"
 }
 layer {
-#@iplugin
   name: "stage4_4/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage4_3/concat"
   bottom: "stage4_4/branch1b"
   bottom: "stage4_4/branch2c"
@@ -2531,10 +2518,9 @@ layer {
   top: "stage4_5/branch2c"
 }
 layer {
-#@iplugin
   name: "stage4_5/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage4_4/concat"
   bottom: "stage4_5/branch1b"
   bottom: "stage4_5/branch2c"
@@ -2674,10 +2660,9 @@ layer {
   top: "stage4_6/branch2c"
 }
 layer {
-#@iplugin
   name: "stage4_6/concat"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "stage4_5/concat"
   bottom: "stage4_6/branch1b"
   bottom: "stage4_6/branch2c"
@@ -3544,14 +3529,14 @@ layer {
 }
 layer {
   name: "ext/pm1_mbox_loc_perm"
-  type: "IPlugin" #@Permute 
+  type: "Permute" 
   bottom: "ext/pm1_mbox_loc"
   top: "ext/pm1_mbox_loc_perm"
   
 }
 layer {
   name: "ext/pm1_mbox_loc_flat"
-  type: "IPlugin" #@Flatten
+  type: "Flatten"
   bottom: "ext/pm1_mbox_loc_perm"
   top: "ext/pm1_mbox_loc_flat"
 }
@@ -3577,21 +3562,21 @@ layer {
 }
 layer {
   name: "ext/pm1_mbox_conf_perm"
-  type: "IPlugin" #@Permute 
+  type: "Permute" 
   bottom: "ext/pm1_mbox_conf"
   top: "ext/pm1_mbox_conf_perm"
   
 }
 layer {
   name: "ext/pm1_mbox_conf_flat"
-  type: "IPlugin" #@Flatten
+  type: "Flatten"
   bottom: "ext/pm1_mbox_conf_perm"
   top: "ext/pm1_mbox_conf_flat"
   
 }
 layer {
   name: "ext/pm1_mbox_priorbox"
-  type: "IPlugin" #@PriorBox
+  type: "PriorBox"
   bottom: "stage4_tb/ext/pm2/res"
   bottom: "data"
   top: "ext/pm1_mbox_priorbox"
@@ -3618,14 +3603,14 @@ layer {
 }
 layer {
   name: "ext/pm2_mbox_loc_perm"
-  type: "IPlugin" #@Permute 
+  type: "Permute" 
   bottom: "ext/pm2_mbox_loc"
   top: "ext/pm2_mbox_loc_perm"
   
 }
 layer {
   name: "ext/pm2_mbox_loc_flat"
-  type: "IPlugin" #@Flatten
+  type: "Flatten"
   bottom: "ext/pm2_mbox_loc_perm"
   top: "ext/pm2_mbox_loc_flat"
   
@@ -3659,21 +3644,21 @@ layer {
 }
 layer {
   name: "ext/pm2_mbox_conf_perm"
-  type: "IPlugin" #@Permute 
+  type: "Permute" 
   bottom: "ext/pm2_mbox_conf"
   top: "ext/pm2_mbox_conf_perm"
   
 }
 layer {
   name: "ext/pm2_mbox_conf_flat"
-  type: "IPlugin" #@Flatten
+  type: "Flatten"
   bottom: "ext/pm2_mbox_conf_perm"
   top: "ext/pm2_mbox_conf_flat"
   
 }
 layer {
   name: "ext/pm2_mbox_priorbox"
-  type: "IPlugin" #@PriorBox
+  type: "PriorBox"
   bottom: "stage4_tb/ext/pm2/res"
   bottom: "data"
   top: "ext/pm2_mbox_priorbox"
@@ -3707,14 +3692,14 @@ layer {
 }
 layer {
   name: "ext/pm3_mbox_loc_perm"
-  type: "IPlugin" #@Permute 
+  type: "Permute" 
   bottom: "ext/pm3_mbox_loc"
   top: "ext/pm3_mbox_loc_perm"
   
 }
 layer {
   name: "ext/pm3_mbox_loc_flat"
-  type: "IPlugin" #@Flatten
+  type: "Flatten"
   bottom: "ext/pm3_mbox_loc_perm"
   top: "ext/pm3_mbox_loc_flat"
  
@@ -3748,21 +3733,21 @@ layer {
 }
 layer {
   name: "ext/pm3_mbox_conf_perm"
-  type: "IPlugin" #@Permute 
+  type: "Permute" 
   bottom: "ext/pm3_mbox_conf"
   top: "ext/pm3_mbox_conf_perm"
   
 }
 layer {
   name: "ext/pm3_mbox_conf_flat"
-  type: "IPlugin" #@Flatten
+  type: "Flatten"
   bottom: "ext/pm3_mbox_conf_perm"
   top: "ext/pm3_mbox_conf_flat"
  
 }
 layer {
   name: "ext/pm3_mbox_priorbox"
-  type: "IPlugin" #@PriorBox
+  type: "PriorBox"
   bottom: "stage4_tb/ext/pm3/res"
   bottom: "data"
   top: "ext/pm3_mbox_priorbox"
@@ -3796,14 +3781,14 @@ layer {
 }
 layer {
   name: "ext/pm4_mbox_loc_perm"
-  type: "IPlugin" #@Permute 
+  type: "Permute" 
   bottom: "ext/pm4_mbox_loc"
   top: "ext/pm4_mbox_loc_perm"
   
 }
 layer {
   name: "ext/pm4_mbox_loc_flat"
-  type: "IPlugin" #@Flatten
+  type: "Flatten"
   bottom: "ext/pm4_mbox_loc_perm"
   top: "ext/pm4_mbox_loc_flat"
  
@@ -3837,21 +3822,21 @@ layer {
 }
 layer {
   name: "ext/pm4_mbox_conf_perm"
-  type: "IPlugin" #@Permute 
+  type: "Permute" 
   bottom: "ext/pm4_mbox_conf"
   top: "ext/pm4_mbox_conf_perm"
   
 }
 layer {
   name: "ext/pm4_mbox_conf_flat"
-  type: "IPlugin" #@Flatten
+  type: "Flatten"
   bottom: "ext/pm4_mbox_conf_perm"
   top: "ext/pm4_mbox_conf_flat"
  
 }
 layer {
   name: "ext/pm4_mbox_priorbox"
-  type: "IPlugin" #@PriorBox
+  type: "PriorBox"
   bottom: "stage4_tb/ext/pm4/res"
   bottom: "data"
   top: "ext/pm4_mbox_priorbox"
@@ -3885,14 +3870,14 @@ layer {
 }
 layer {
   name: "ext/pm5_mbox_loc_perm"
-  type: "IPlugin" #@Permute 
+  type: "Permute" 
   bottom: "ext/pm5_mbox_loc"
   top: "ext/pm5_mbox_loc_perm"
   
 }
 layer {
   name: "ext/pm5_mbox_loc_flat"
-  type: "IPlugin" #@Flatten
+  type: "Flatten"
   bottom: "ext/pm5_mbox_loc_perm"
   top: "ext/pm5_mbox_loc_flat"
   
@@ -3926,21 +3911,21 @@ layer {
 }
 layer {
   name: "ext/pm5_mbox_conf_perm"
-  type: "IPlugin" #@Permute 
+  type: "Permute" 
   bottom: "ext/pm5_mbox_conf"
   top: "ext/pm5_mbox_conf_perm"
   
 }
 layer {
   name: "ext/pm5_mbox_conf_flat"
-  type: "IPlugin" #@Flatten
+  type: "Flatten"
   bottom: "ext/pm5_mbox_conf_perm"
   top: "ext/pm5_mbox_conf_flat"
   
 }
 layer {
   name: "ext/pm5_mbox_priorbox"
-  type: "IPlugin" #@PriorBox
+  type: "PriorBox"
   bottom: "stage4_tb/ext/pm5/res"
   bottom: "data"
   top: "ext/pm5_mbox_priorbox"
@@ -3974,14 +3959,14 @@ layer {
 }
 layer {
   name: "ext/pm6_mbox_loc_perm"
-  type: "IPlugin" #@Permute 
+  type: "Permute" 
   bottom: "ext/pm6_mbox_loc"
   top: "ext/pm6_mbox_loc_perm"
   
 }
 layer {
   name: "ext/pm6_mbox_loc_flat"
-  type: "IPlugin" #@Flatten
+  type: "Flatten"
   bottom: "ext/pm6_mbox_loc_perm"
   top: "ext/pm6_mbox_loc_flat"
   
@@ -4015,30 +4000,29 @@ layer {
 }
 layer {
   name: "ext/pm6_mbox_conf_perm"
-  type: "IPlugin" #@Permute 
+  type: "Permute" 
   bottom: "ext/pm6_mbox_conf"
   top: "ext/pm6_mbox_conf_perm"
  
 }
 layer {
   name: "ext/pm6_mbox_conf_flat"
-  type: "IPlugin" #@Flatten
+  type: "Flatten"
   bottom: "ext/pm6_mbox_conf_perm"
   top: "ext/pm6_mbox_conf_flat"
   
 }
 layer {
   name: "ext/pm6_mbox_priorbox"
-  type: "IPlugin" #@PriorBox
+  type: "PriorBox"
   bottom: "stage4_tb/ext/pm6/res"
   bottom: "data"
   top: "ext/pm6_mbox_priorbox"
 }
 layer {
-#@iplugin 
   name: "mbox_loc"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "ext/pm1_mbox_loc_flat"
   bottom: "ext/pm2_mbox_loc_flat"
   bottom: "ext/pm3_mbox_loc_flat"
@@ -4051,10 +4035,9 @@ layer {
   }
 }
 layer {
-#@iplugin
   name: "mbox_conf"
-  #type: "Concat"
-  type: "IPlugin" 
+  type: "Concat"
+  #type: "IPlugin" 
   bottom: "ext/pm1_mbox_conf_flat"
   bottom: "ext/pm2_mbox_conf_flat"
   bottom: "ext/pm3_mbox_conf_flat"
