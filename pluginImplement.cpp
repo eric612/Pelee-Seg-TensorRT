@@ -115,7 +115,7 @@ nvinfer1::IPlugin* PluginFactory::createPlugin(const char* layerName, const nvin
         std::cout << layerName << std::endl;
         assert(mExt_pm1_mbox_priorbox_layer.get() == nullptr);
         PriorBoxParameters params; 
-        float min_size[1] = {21.2800006866}, max_size[1] = {45.5999984741}, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
+        float min_size[1] = {30.3999996185}, max_size[1] = {60.7999992371}, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
         params.minSize=min_size;
         params.aspectRatios=aspect_ratio;
         params.numMinSize = 1;
@@ -141,7 +141,7 @@ nvinfer1::IPlugin* PluginFactory::createPlugin(const char* layerName, const nvin
     {
         std::cout << layerName << std::endl;
         assert(mExt_pm2_mbox_priorbox_layer.get() == nullptr);
-        float min_size[1] = {45.6}, max_size[1] = {100.32}, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
+        float min_size[1] = {60.7999992371}, max_size[1] = {112.480003357}, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
         PriorBoxParameters params; 
         params.minSize=min_size;
         params.aspectRatios=aspect_ratio;
@@ -172,7 +172,7 @@ nvinfer1::IPlugin* PluginFactory::createPlugin(const char* layerName, const nvin
     {
         std::cout << layerName << std::endl;
         assert(mExt_pm3_mbox_priorbox_layer.get() == nullptr);
-        float min_size[1] = {100.32}, max_size[1] = {155.04}, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
+        float min_size[1] = {112.480003357}, max_size[1] = {164.160003662}, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
         PriorBoxParameters params; 
         params.minSize=min_size;
         params.aspectRatios=aspect_ratio;
@@ -201,7 +201,7 @@ nvinfer1::IPlugin* PluginFactory::createPlugin(const char* layerName, const nvin
     {
         std::cout << layerName << std::endl;
         assert(mExt_pm4_mbox_priorbox_layer.get() == nullptr);
-        float min_size[1] = {155.04}, max_size[1] = {209.76}, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
+        float min_size[1] = {164.160003662}, max_size[1] = {215.839996338}, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
         PriorBoxParameters params; 
         params.minSize=min_size;
         params.aspectRatios=aspect_ratio;
@@ -229,7 +229,7 @@ nvinfer1::IPlugin* PluginFactory::createPlugin(const char* layerName, const nvin
     {
         std::cout << layerName << std::endl;
         assert(mExt_pm5_mbox_priorbox_layer.get() == nullptr);
-        float min_size[1]= {209.76}, max_size[1]= {264.48}, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
+        float min_size[1]= {215.839996338}, max_size[1]= {267.519989014}, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
         PriorBoxParameters params; 
         params.minSize=min_size;
         params.aspectRatios=aspect_ratio;
@@ -257,7 +257,7 @@ nvinfer1::IPlugin* PluginFactory::createPlugin(const char* layerName, const nvin
     {
         std::cout << layerName << std::endl;
         assert(mExt_pm6_mbox_priorbox_layer.get() == nullptr);
-        float min_size[1] = {264.48}, max_size[1] = {319.20}, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
+        float min_size[1] = {267.519989014}, max_size[1] = {319.200012207}, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
         PriorBoxParameters params; 
         params.minSize=min_size;
         params.aspectRatios=aspect_ratio;
@@ -589,7 +589,7 @@ nvinfer1::IPlugin* PluginFactory::createPlugin(const char* layerName, const nvin
         std::cout << layerName << std::endl;
         assert(mMbox_conf_reshape.get() == nullptr);
         assert(nbWeights == 0 && weights == nullptr);
-        mMbox_conf_reshape = std::unique_ptr<Reshape<21>>(new Reshape<21>());
+        mMbox_conf_reshape = std::unique_ptr<Reshape<11>>(new Reshape<11>());
         return mMbox_conf_reshape.get();
     }
     //softmax layer
@@ -619,11 +619,11 @@ nvinfer1::IPlugin* PluginFactory::createPlugin(const char* layerName, const nvin
         params.varianceEncodedInTarget = false;
         params.topK = 400;
         params.nmsThreshold = 0.4499;
-        params.numClasses = 21;
+        params.numClasses = 11;
         params.inputOrder[0] = 0;
         params.inputOrder[1] = 1;
         params.inputOrder[2] = 2;
-        params.confidenceThreshold = 0.4;
+        params.confidenceThreshold = 0.3;
         params.confSigmoid = false;
         params.isNormalized = true;
 
@@ -732,7 +732,7 @@ IPlugin* PluginFactory::createPlugin(const char* layerName, const void* serialDa
      else if (!strcmp(layerName, "ext/pm1_mbox_priorbox"))
     {
         assert(mExt_pm1_mbox_priorbox_layer.get() == nullptr);
-        float min_size = 21.2800006866, max_size = 45.5999984741, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
+        float min_size = 30.3999996185, max_size = 60.7999992371, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
         mExt_pm1_mbox_priorbox_layer = std::unique_ptr<INvPlugin, decltype(nvPluginDeleter)>
                 (createSSDPriorBoxPlugin(serialData, serialLength), nvPluginDeleter);
         return mExt_pm1_mbox_priorbox_layer.get();
@@ -740,7 +740,7 @@ IPlugin* PluginFactory::createPlugin(const char* layerName, const void* serialDa
       else if (!strcmp(layerName, "ext/pm2_mbox_priorbox"))
     {
         assert(mExt_pm2_mbox_priorbox_layer.get() == nullptr);
-        float min_size = 45.5999984741, max_size = 100.319999695, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
+        float min_size = 60.7999992371, max_size = 112.480003357, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
         mExt_pm2_mbox_priorbox_layer = std::unique_ptr<INvPlugin, decltype(nvPluginDeleter)>
                 (createSSDPriorBoxPlugin(serialData, serialLength), nvPluginDeleter);
         return mExt_pm2_mbox_priorbox_layer.get();
@@ -749,7 +749,7 @@ IPlugin* PluginFactory::createPlugin(const char* layerName, const void* serialDa
       else if (!strcmp(layerName, "ext/pm3_mbox_priorbox"))
     {
         assert(mExt_pm3_mbox_priorbox_layer.get() == nullptr);
-        float min_size = 100.319999695, max_size = 155.039993286, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
+        float min_size = 112.480003357, max_size = 164.160003662, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
         mExt_pm3_mbox_priorbox_layer = std::unique_ptr<INvPlugin, decltype(nvPluginDeleter)>
                 (createSSDPriorBoxPlugin(serialData, serialLength), nvPluginDeleter);
         return mExt_pm3_mbox_priorbox_layer.get();
@@ -758,7 +758,7 @@ IPlugin* PluginFactory::createPlugin(const char* layerName, const void* serialDa
       else if (!strcmp(layerName, "ext/pm4_mbox_priorbox"))
     {
         assert(mExt_pm4_mbox_priorbox_layer.get() == nullptr);
-        float min_size = 155.039993286, max_size = 209.759994507, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
+        float min_size = 164.160003662, max_size = 215.839996338, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
         mExt_pm4_mbox_priorbox_layer = std::unique_ptr<INvPlugin, decltype(nvPluginDeleter)>
                 (createSSDPriorBoxPlugin(serialData, serialLength), nvPluginDeleter);
         return mExt_pm4_mbox_priorbox_layer.get();
@@ -767,7 +767,7 @@ IPlugin* PluginFactory::createPlugin(const char* layerName, const void* serialDa
       else if (!strcmp(layerName, "ext/pm5_mbox_priorbox"))
     {
         assert(mExt_pm5_mbox_priorbox_layer.get() == nullptr);
-        float min_size = 209.759994507, max_size = 264.480010986, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
+        float min_size = 215.839996338, max_size = 267.519989014, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
         mExt_pm5_mbox_priorbox_layer = std::unique_ptr<INvPlugin, decltype(nvPluginDeleter)>
                 (createSSDPriorBoxPlugin(serialData, serialLength), nvPluginDeleter);
         return mExt_pm5_mbox_priorbox_layer.get();
@@ -776,7 +776,7 @@ IPlugin* PluginFactory::createPlugin(const char* layerName, const void* serialDa
       else if (!strcmp(layerName, "ext/pm6_mbox_priorbox"))
     {
         assert(mExt_pm6_mbox_priorbox_layer.get() == nullptr);
-        float min_size = 264.480010986, max_size = 319.200012207, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
+        float min_size = 267.519989014, max_size = 319.200012207, aspect_ratio[3] = {1.0, 2.0, 3.0}; //aspect_ratio[2] = {1.0, 2.0}; 
         mExt_pm6_mbox_priorbox_layer = std::unique_ptr<INvPlugin, decltype(nvPluginDeleter)>
                 (createSSDPriorBoxPlugin(serialData, serialLength), nvPluginDeleter);
         return mExt_pm6_mbox_priorbox_layer.get();
@@ -1049,7 +1049,7 @@ IPlugin* PluginFactory::createPlugin(const char* layerName, const void* serialDa
     {
         assert(mMbox_conf_reshape.get() == nullptr);
        // assert(nbWeights == 0 && weights == nullptr);
-        mMbox_conf_reshape = std::unique_ptr<Reshape<21>>(new Reshape<21>(serialData, serialLength));
+        mMbox_conf_reshape = std::unique_ptr<Reshape<11>>(new Reshape<11>(serialData, serialLength));
         return mMbox_conf_reshape.get();
     }
     //softmax layer
