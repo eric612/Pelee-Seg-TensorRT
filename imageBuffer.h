@@ -16,19 +16,20 @@ public:
             maxSize(mxsz),dropFrame(dropFrame)
     { }
 
-    void add(T request)
+    bool add(T request)
     {
         std::unique_lock<std::mutex> lock(mutex);
         if(dropFrame && isFull())
         {
             lock.unlock();
-                return;
+			return false;
         }
         else {
             cond.wait(lock, [this]() { return !isFull(); });
             cpq.push(request);
             //lock.unlock();
             cond.notify_all();
+            return true;
         }
     }
 

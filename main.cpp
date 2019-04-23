@@ -19,7 +19,7 @@ static const uint32_t BATCH_SIZE = 1;
 volatile bool endvideo = false;
 //image buffer size = 10
 //dropFrame = false
-ConsumerProducerQueue<cv::Mat> *imageBuffer = new ConsumerProducerQueue<cv::Mat>(5,false);
+ConsumerProducerQueue<cv::Mat> *imageBuffer = new ConsumerProducerQueue<cv::Mat>(5,true);
 
 class Timer {
 public:
@@ -86,11 +86,31 @@ void loadImg( cv::Mat &input, int re_width, int re_height, float *data_unifrom,c
         }
     }
 }
-
+std::string gstreamer_pipeline (int capture_width, int capture_height, int display_width, int display_height, int framerate, int flip_method) {
+    return "nvarguscamerasrc ! video/x-raw(memory:NVMM), width=(int)" + std::to_string(capture_width) + ", height=(int)" +
+           std::to_string(capture_height) + ", format=(string)NV12, framerate=(fraction)" + std::to_string(framerate) +
+           "/1 ! nvvidconv flip-method=" + std::to_string(flip_method) + " ! video/x-raw, width=(int)" + std::to_string(display_width) + ", height=(int)" +
+           std::to_string(display_height) + ", format=(string)BGRx ! videoconvert ! video/x-raw, format=(string)BGR ! appsink";
+}
 //thread read video
 void readPicture()
 {
-    cv::VideoCapture cap("testVideo/test.avi");
+	int capture_width = 1280 ;
+    int capture_height = 720 ;
+    int display_width = 1280 ;
+    int display_height = 720 ;
+    int framerate = 30 ;
+    int flip_method = 0 ;
+
+    std::string pipeline = gstreamer_pipeline(capture_width,
+	capture_height,
+	display_width,
+	display_height,
+	framerate,
+	flip_method);
+    std::cout << "Using pipeline: \n\t" << pipeline << "\n";
+    cv::VideoCapture cap(pipeline, cv::CAP_GSTREAMER);
+    //cv::VideoCapture cap("testVideo/test.avi");
     cv::Mat image;
     while(cap.isOpened())
     {
@@ -99,7 +119,9 @@ void readPicture()
             endvideo = true;
             break;
         }
-        imageBuffer->add(image);
+        if(!imageBuffer->add(image)) {
+			image.release();
+		}
     }
 }
 
@@ -118,11 +140,18 @@ int main(int argc, char *argv[])
     std::cout << "allocate output" << std::endl;
     int height = 304;
     int width  = 304;
+	void* imgCPU;
+    void* imgCUDA;
+	const size_t size = width * height * sizeof(float3);
 
+	if( CUDA_FAILED( cudaMalloc( &imgCUDA, size)) )
+	{
+		cout <<"Cuda Memory allocation error occured."<<endl;
+		return false;
+	}
     cv::Mat frame,srcImg;
 
-    void* imgCPU;
-    void* imgCUDA;
+
     Timer timer;
 
     std::thread readTread(readPicture);
@@ -130,64 +159,60 @@ int main(int argc, char *argv[])
     double msTime_avg = 0.;
     int count = 0;
     while(1){
-    if(endvideo && imageBuffer->isEmpty()) {
-        break;
-    }
-    imageBuffer->consume(frame);
+		if(endvideo && imageBuffer->isEmpty()) {
+			break;
+		}
+		imageBuffer->consume(frame);
 
-    if(!frame.rows) {
-        break;
-    }
-    //srcImg = frame.clone();
-    cv::resize(frame, srcImg, cv::Size(304,304));
-    const size_t size = width * height * sizeof(float3);
+		if(!frame.rows) {
+			break;
+		}
+		//srcImg = frame.clone();
+		cv::resize(frame, srcImg, cv::Size(304,304));
 
-    if( CUDA_FAILED( cudaMalloc( &imgCUDA, size)) )
-    {
-        cout <<"Cuda Memory allocation error occured."<<endl;
-        return false;
-    }
 
-    void* imgData = malloc(size);
-    //memset(imgData,0,size);
+		void* imgData = malloc(size);
+		//memset(imgData,0,size);
 
-    loadImg(srcImg,height,width,(float*)imgData,make_float3(103.94,116.78,123.68),0.017);
-    cudaMemcpyAsync(imgCUDA,imgData,size,cudaMemcpyHostToDevice);
+		loadImg(srcImg,height,width,(float*)imgData,make_float3(103.94,116.78,123.68),0.017);
+		cudaMemcpyAsync(imgCUDA,imgData,size,cudaMemcpyHostToDevice);
 
-    void* buffers[] = { imgCUDA, output }; 
+		void* buffers[] = { imgCUDA, output }; 
 
-    
+		
 
-    timer.tic();
-    tensorNet.imageInference( buffers, output_vector.size() + 1, BATCH_SIZE);
-    timer.toc();
-    double msTime = timer.t;
-    msTime_avg+= msTime;
-    count++;
-    std::cout<<msTime_avg/(float)count<< std::endl;	
-    vector<vector<float> > detections;
+		timer.tic();
+		tensorNet.imageInference( buffers, output_vector.size() + 1, BATCH_SIZE);
+		timer.toc();
+		double msTime = timer.t;
+		msTime_avg+= msTime;
+		count++;
+		std::cout<<msTime_avg/(float)count<< std::endl;	
+		vector<vector<float> > detections;
 
-    for (int k=0; k<100; k++)
-    {
-        if(output[7*k+1] == -1)
-            break;
-        float classIndex = output[7*k+1];
-        float confidence = output[7*k+2];
-        float xmin = output[7*k + 3];
-        float ymin = output[7*k + 4];
-        float xmax = output[7*k + 5];
-        float ymax = output[7*k + 6];
-        //std::cout << classIndex << " , " << confidence << " , "  << xmin << " , " << ymin<< " , " << xmax<< " , " << ymax << std::endl;
-        int x1 = static_cast<int>(xmin * frame.cols);
-        int y1 = static_cast<int>(ymin * frame.rows);
-        int x2 = static_cast<int>(xmax * frame.cols);
-        int y2 = static_cast<int>(ymax * frame.rows);
-        cv::rectangle(frame,cv::Rect2f(cv::Point(x1,y1),cv::Point(x2,y2)),cv::Scalar(255,0,255),1);
+		for (int k=0; k<100; k++)
+		{
+			if(output[7*k+1] == -1)
+				break;
+			float classIndex = output[7*k+1];
+			float confidence = output[7*k+2];
+			float xmin = output[7*k + 3];
+			float ymin = output[7*k + 4];
+			float xmax = output[7*k + 5];
+			float ymax = output[7*k + 6];
+			//std::cout << classIndex << " , " << confidence << " , "  << xmin << " , " << ymin<< " , " << xmax<< " , " << ymax << std::endl;
+			int x1 = static_cast<int>(xmin * frame.cols);
+			int y1 = static_cast<int>(ymin * frame.rows);
+			int x2 = static_cast<int>(xmax * frame.cols);
+			int y2 = static_cast<int>(ymax * frame.rows);
+			cv::rectangle(frame,cv::Rect2f(cv::Point(x1,y1),cv::Point(x2,y2)),cv::Scalar(255,0,255),1);
 
-    }
-    cv::imshow("Pelee",frame);
-    cv::waitKey(1);
-    free(imgData);
+		}
+		cv::imshow("Pelee",frame);
+		cv::waitKey(1);
+		free(imgData);
+		frame.release();
+		srcImg.release();
     }
     cudaFree(imgCUDA);
     cudaFreeHost(imgCPU);
