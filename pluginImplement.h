@@ -179,7 +179,7 @@ public:
 //        CHECK(cudaMemcpyAsync(outputs[0],inputs[0],batchSize*mCopySize*sizeof(float),cudaMemcpyDeviceToDevice,stream));
         //@Seojin add fp16 inference code 
 	//if(mDataType == DataType::kFLOAT){ //FP32 
-	  cudaSoftmax( 8732*21, 21, (float *) *inputs, static_cast<float *>(*outputs));
+	  cudaSoftmax( 8732*11, 11, (float *) *inputs, static_cast<float *>(*outputs));
 
         return 0;
     }
@@ -341,7 +341,7 @@ public:
     std::unique_ptr<INvPlugin, decltype(nvPluginDeleter)> mBox_priorbox_layer{ nullptr, nvPluginDeleter };
    
     //reshape layer
-    std::unique_ptr<Reshape<21>> mMbox_conf_reshape{ nullptr };
+    std::unique_ptr<Reshape<11>> mMbox_conf_reshape{ nullptr };
     //flatten layers
     //pelee 
     std::unique_ptr<FlattenLayer> mExt_pm1_mbox_loc_flat_layer{ nullptr };
